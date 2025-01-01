@@ -1,0 +1,16 @@
+class Solution {
+public:
+    char transform_string(string word,int limit){
+        if(word.size()>=limit) return word[limit-1];
+        string newword="";
+        for(auto i:word)newword+=i;
+        for(auto i:word)newword+=i=='z'?'a':i+1;
+        for(auto i:newword) cout<<i<<" ";
+        cout<<endl;
+        return transform_string(newword,limit);
+    }
+    char kthCharacter(int k) {
+        string sol="a";
+        return transform_string(sol,k);
+    }
+};
