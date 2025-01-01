@@ -7,7 +7,6 @@ public:
         return transform_string(newword,limit);
     }
     char kthCharacter(int k) {
-        string sol="a";
-        return transform_string(sol,k);
+        return transform_string("a",k);
     }
 };
