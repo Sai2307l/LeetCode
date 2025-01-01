@@ -5,8 +5,6 @@ public:
         string newword="";
         for(auto i:word)newword+=i;
         for(auto i:word)newword+=i=='z'?'a':i+1;
-        for(auto i:newword) cout<<i<<" ";
-        cout<<endl;
         return transform_string(newword,limit);
     }
     char kthCharacter(int k) {
