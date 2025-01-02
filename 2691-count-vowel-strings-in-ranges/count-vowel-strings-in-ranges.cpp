@@ -14,10 +14,11 @@ public:
 private:
     vector<int> is_k(vector<string>& words){
         vector<int> is_ok;
+        map<char,bool> comp={{'a',true},{'e',true},{'i',true},{'o',true},{'u',true}};
         int val=0;
         for(auto i:words){
-            bool left= i[0]=='a'|| i[0]=='e'|| i[0]=='i'|| i[0]=='o'|| i[0]=='u';
-            bool right= i[i.size()-1]=='a' || i[i.size()-1]=='e'|| i[i.size()-1]=='i'|| i[i.size()-1]=='o'|| i[i.size()-1]=='u';
+            bool left= comp[i[0]];
+            bool right= comp[i[i.size()-1]];
             if(left && right){
                 val++;
                 is_ok.push_back(val);
