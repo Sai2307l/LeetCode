@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<int> vowelStrings(vector<string>& words, vector<vector<int>>& queries) {
         vector<int> ans,sol;
-        ans=is_k(words);
+        is_k(words,ans);
         for(auto i:queries){
             sol.push_back(i[0]-1==-1?ans[i[1]]:ans[i[1]]-ans[i[0]-1]);
         }
@@ -10,8 +10,7 @@ public:
     }
 
 private:
-    vector<int> is_k(vector<string>& words){
-        vector<int> is_ok;
+    void is_k(vector<string>& words,vector<int>& is_ok){
         map<char,bool> comp={{'a',true},{'e',true},{'i',true},{'o',true},{'u',true}};
         int val=0;
         for(auto i:words){
@@ -21,7 +20,7 @@ private:
             }
             else is_ok.push_back(val);
         }
-        return is_ok;
+        return ;
     }
 
 };
