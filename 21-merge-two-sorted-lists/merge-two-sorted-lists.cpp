@@ -19,15 +19,13 @@ public:
             return list2;
         }
         else{
-            ListNode* child = new ListNode();
             if(list1->val<=list2->val){
-                child->val=list1->val;
-                child->next=mergeTwoLists(list1->next,list2);
+                list1->next=mergeTwoLists(list1->next,list2);
+                return list1;
             }else{
-                child->val=list2->val;
-                child->next=mergeTwoLists(list1,list2->next);
+                list2->next=mergeTwoLists(list1,list2->next);
+                return list2;
             }
-            return child;
         }
     }
 };
