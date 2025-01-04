@@ -1,25 +1,18 @@
 class Solution {
 public:
     int countPalindromicSubsequence(string s) {
-        int n = s.size();
-        map<char,pair<int,int>> first_last;
-        for(int i=0;i<n;i++){
-            if(first_last.find(s[i])==first_last.end()){
-                first_last[s[i]].first=i;
-            }
-            first_last[s[i]].second=i;
-        }
+        bitset<26> letters;
         int sol=0;
-        set<char> unique;
-        for(auto [letter,positions]:first_last){   
-            int left = positions.first;
-            int right = positions.second;
-            if(right-left<=1) continue;            
-            for(int i=left+1;i<right;i++){
-                unique.insert(s[i]);
+        for(int i=0;i<26;i++){
+            int l = s.find('a'+i);
+            if(l==string::npos) continue;
+            int r = s.find_last_of('a'+i);
+            for(int i=l+1;i<r;i++){
+                letters.set(s[i]-'a');
+                if(letters.count()==26) break;
             }
-            sol+=unique.size();
-            unique.clear();
+            sol+=letters.count();
+            letters.reset();
         }
         return sol;
     }
