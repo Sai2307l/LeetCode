@@ -10,8 +10,9 @@ public:
             first_last[s[i]].second=i;
         }
         int sol=0;
-        set<char> unique;
+        
         for(auto [letter,positions]:first_last){
+            set<char> unique;
             int left = positions.first;
             int right = positions.second;
             if(right-left<=1) continue;            
@@ -19,7 +20,6 @@ public:
                 unique.insert(s[i]);
             }
             sol+=unique.size();
-            unique.clear();
         }
         return sol;
     }
