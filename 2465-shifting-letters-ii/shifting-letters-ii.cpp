@@ -2,7 +2,7 @@ class Solution {
 public:
     string shiftingLetters(string s, vector<vector<int>>& shifts) {
         int n=s.size(),ss=shifts.size();
-        vector<int> change(n+1,0);
+        vector<int> change(n+1,0);//no right error
         for(int i=0;i<ss;i++){
             vector<int>& shift=shifts[i];
             int left=shift[0],right=shift[1]+1,type=shift[2]==1?1:-1;
