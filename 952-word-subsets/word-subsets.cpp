@@ -1,38 +1,29 @@
 class Solution {
 public:
     vector<string> wordSubsets(vector<string>& words1, vector<string>& words2) {
-        auto get_word_freqs {[](string& w) -> array<int, 26> {
-            array<int, 26> ret {};
-            for (auto c : w)
-                ++ret[c - 'a'];
-
-            return ret;
-        }};
-
-        array<int, 26> words2_max_freqs {};
-        for (auto& w : words2) {
-            const auto current {get_word_freqs(w)};
-            for (int i {0}; i < 26; ++i)
-                words2_max_freqs[i] = max (words2_max_freqs[i], current[i]);
+        vector<int> maxFreq(26, 0);
+        for (const auto& word : words2) {
+            vector<int> freq(26, 0);
+            for (char c : word)
+                freq[c - 'a']++;
+            for (int i = 0; i < 26; i++)
+                maxFreq[i] = max(maxFreq[i], freq[i]);
         }
-
-        vector<string> ret {};
-        ret.reserve (words1.size());
-
-        for (auto& w : words1) {
-            const auto current {get_word_freqs(w)};
-
-            bool is_universal {true};
-            for (int i {0}; i < 26; ++i)
-                if (current[i] < words2_max_freqs[i]) {
-                    is_universal = false;
+        vector<string> ans;
+        for (const auto& word : words1) {
+            vector<int> freq(26, 0);
+            for (char c : word)
+                freq[c - 'a']++;
+            bool isUniversal = true;
+            for (int i = 0; i < 26; i++) {
+                if (freq[i] < maxFreq[i]) {
+                    isUniversal = false;
                     break;
-                }     
-
-            if (is_universal)
-                ret.push_back (std::move(w));
+                }
+            }
+            if (isUniversal)
+                ans.push_back(word);
         }
-
-        return ret;
+        return ans;
     }
 };
