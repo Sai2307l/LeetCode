@@ -1,36 +1,38 @@
 class Solution {
 public:
     vector<string> wordSubsets(vector<string>& words1, vector<string>& words2) {
-        map<char, int> mp;
-        for (auto it : words2) {
-            map<char, int> temp;
-            for (int i = 0; i < it.size(); i++) {
-                temp[it[i]]++;
-            }
-            for (auto itr : temp) {
-                char c = itr.first;
-                int freq = itr.second;
-                mp[c] = max(mp[c], temp[c]);
-            }
+        auto get_word_freqs {[](string& w) -> array<int, 26> {
+            array<int, 26> ret {};
+            for (auto c : w)
+                ++ret[c - 'a'];
+
+            return ret;
+        }};
+
+        array<int, 26> words2_max_freqs {};
+        for (auto& w : words2) {
+            const auto current {get_word_freqs(w)};
+            for (int i {0}; i < 26; ++i)
+                words2_max_freqs[i] = max (words2_max_freqs[i], current[i]);
         }
-        vector<string> ans;
-        for (auto it : words1) {
-            map<char, int> mp2;
-            for (auto i : it) {
-                mp2[i]++;
-            }
-            bool flag = 1;
-            for (auto itr : mp) {
-                char c = itr.first;
-                int freq = itr.second;
-                if (mp2[c] >= freq) {
-                } else {
-                    flag = 0;
+
+        vector<string> ret {};
+        ret.reserve (words1.size());
+
+        for (auto& w : words1) {
+            const auto current {get_word_freqs(w)};
+
+            bool is_universal {true};
+            for (int i {0}; i < 26; ++i)
+                if (current[i] < words2_max_freqs[i]) {
+                    is_universal = false;
                     break;
-                }
-            }
-            if (flag) ans.push_back(it);
+                }     
+
+            if (is_universal)
+                ret.push_back (std::move(w));
         }
-        return ans;
+
+        return ret;
     }
 };
