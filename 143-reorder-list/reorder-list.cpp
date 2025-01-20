@@ -11,7 +11,6 @@
 class Solution {
 public:
 ListNode* recc_sol(ListNode* head){
-        if(head==nullptr)  return nullptr;
         if(head->next==nullptr) return head;
         if(head->next->next==nullptr) return head;
         ListNode* newhead=head->next,*last,*prev=head;
