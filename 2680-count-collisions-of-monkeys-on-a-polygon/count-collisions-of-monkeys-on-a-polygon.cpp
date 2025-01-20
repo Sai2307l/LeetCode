@@ -2,7 +2,7 @@
 class Solution {
     const int mod = 1e9 + 7;
 
-    ll power(ll a, ll b, ll p = 1){
+    ll power(ll a, ll b, ll p){
         if(a == 0){
             return 0;
         }
