@@ -1,18 +1,14 @@
 class Solution {
 public:
     int findTheWinner(int n, int k) {
-        std::vector<int> circle;
-        for (int i = 1; i <= n; ++i) {
-            circle.push_back(i);
-        }
-        int cur_ind = 0;
+        return recursion(n, k) + 1;
+    }
 
-        while (circle.size() > 1) {
-            int next_to_remove = (cur_ind + k - 1) % circle.size();
-            circle.erase(circle.begin() + next_to_remove);
-            cur_ind = next_to_remove;
+private:
+    int recursion(int n, int k) {
+        if (n == 1) {
+            return 0;
         }
-
-        return circle[0];
+        return (recursion(n - 1, k) + k) % n;
     }
 };
