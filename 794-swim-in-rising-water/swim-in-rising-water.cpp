@@ -1,36 +1,40 @@
 class Solution {
-    int dp[51][51][2501];
-    int vis[51][51];
-    long long rec(vector<vector<int>> &grid,int i,int j,int time)
-    {
-        if(i<0 || j<0 || i>=grid.size() || j>=grid[0].size() || vis[i][j])
-            return INT_MAX;
-        
-        if(i==grid.size()-1 && j==grid[0].size()-1)
-            return time+max(0,grid[i][j]-time);
-        
-        if(dp[i][j][time]!=-1)
-            return dp[i][j][time];
-        
-        vis[i][j]=1;
-        
-        long long op1,op2,op3,op4;
-        
-        op1=rec(grid,i+1,j,time+max(0,grid[i][j]-time));
-        op2=rec(grid,i-1,j,time+max(0,grid[i][j]-time));
-        op3=rec(grid,i,j+1,time+max(0,grid[i][j]-time));
-        op4=rec(grid,i,j-1,time+max(0,grid[i][j]-time));
-        
-        vis[i][j]=0;
-        
-        return dp[i][j][time]=min({op1,op2,op3,op4});
-        
-    }
-    
 public:
+    vector<vector<int>> g;
+    vector<vector<bool>> st;
+    int n;
+    int dx[4] = {-1, 0, 1, 0}, dy[4] = {0, 1, 0, -1};
+
+    bool dfs(int x, int y, int mid) {
+        st[x][y] = true;
+        if (x == n - 1 && y == n - 1) return true;
+
+        for (int i = 0; i < 4; i ++) {
+            int a = x + dx[i], b = y + dy[i];
+            if (a >= 0 && a < n && b >= 0 && b < n && g[a][b] <= mid && !st[a][b])
+                if (dfs(a, b, mid))
+                    return true;
+        }
+
+        return false;
+    }
+
+    bool check(int mid) {
+        if (g[0][0] > mid) return false;
+        st = vector<vector<bool>>(n, vector<bool>(n));
+        return dfs(0, 0, mid);
+    }
+
     int swimInWater(vector<vector<int>>& grid) {
-        memset(vis,0,sizeof(vis));
-        memset(dp,-1,sizeof(dp));
-        return rec(grid,0,0,0);
+        g = grid;
+        n = g[0].size();
+
+        int l = 0, r = n * n - 1;
+        while (l < r) {
+            int mid = l + r >> 1;
+            if (check(mid)) r = mid;
+            else l = mid + 1;
+        }
+        return r;
     }
 };
