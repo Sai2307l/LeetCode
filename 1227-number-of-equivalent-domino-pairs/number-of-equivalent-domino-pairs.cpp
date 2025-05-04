@@ -1,7 +1,7 @@
 class Solution {
 public:
     int numEquivDominoPairs(vector<vector<int>>& dominoes) {
-        map<int,int> freq;
+        unordered_map<int,int> freq;
         int sum=0;
         for(auto i:dominoes){
             int a = i[0];
