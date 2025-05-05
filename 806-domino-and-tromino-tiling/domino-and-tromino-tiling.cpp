@@ -1,8 +1,7 @@
 class Solution {
 public:
     int numTilings(int N) {
-        int md=1e9;
-    md+=7;
+    int md=1e9+7;
     vector<long long> v(1001,0);
     v[1]=1;
     v[2]=2;
