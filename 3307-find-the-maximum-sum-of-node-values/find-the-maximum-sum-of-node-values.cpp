@@ -1,13 +1,20 @@
 class Solution {
 public:
     long long maximumValueSum(vector<int>& nums, int k, vector<vector<int>>& edges) {
-        vector<long long> dp = {0, LLONG_MIN};
-        for (int n : nums) {
-            vector<long long> cnt = {dp[0] + n, dp[1] + n};
-            cnt[1] = max(cnt[1], dp[0] + (n ^ k));
-            cnt[0] = max(cnt[0], dp[1] + (n ^ k));
-            dp = cnt;
+        long long sum = 0;
+        vector<long long> res;
+        for (int x : nums) {
+            sum += x;
+            int y = x ^ k;
+            res.push_back(y - x);
         }
-        return dp[0];
+        sort(res.begin(), res.end());
+        reverse(res.begin(), res.end());
+        
+        for (int i = 0; i < res.size() - 1; i += 2) {
+            if (res[i] + res[i + 1] <= 0) break;
+            sum += res[i] + res[i + 1];
+        }
+        return sum;
     }
 };
