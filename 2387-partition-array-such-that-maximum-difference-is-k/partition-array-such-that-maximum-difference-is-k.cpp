@@ -4,7 +4,6 @@ public:
         set<int> s;
         for(auto i:nums) s.insert(i);
         int min_val = *s.begin(),count=1;
-        cout<<min_val;
         for(auto itr:s){
             if(itr-min_val>k){
                 min_val=itr;
