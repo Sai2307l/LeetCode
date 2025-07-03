@@ -1,12 +1,14 @@
 class Solution {
 public:
-    char transform_string(string word,int limit){
-        if(word.size()>=limit) return word[limit-1];
-        string newword=word;
-        for(auto i:word)newword+=i=='z'?'a':i+1;
-        return transform_string(newword,limit);
-    }
     char kthCharacter(int k) {
-        return transform_string("a",k);
+        std::string sb = "a";
+        while (sb.length() < k) {
+            int size = sb.length();
+            for (int i = 0; i < size; ++i) {
+                char nextChar = 'a' + ((sb[i] - 'a' + 1) % 26);
+                sb += nextChar;
+            }
+        }
+        return sb[k - 1];
     }
 };
