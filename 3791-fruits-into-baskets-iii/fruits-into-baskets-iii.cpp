@@ -2,36 +2,36 @@ class Solution {
 public:
     int numOfUnplacedFruits(vector<int>& fruits, vector<int>& baskets) {
         int n = baskets.size();
-        int m = sqrt(n);
-        int section = (n + m - 1) / m;
+        int N = 1;
+        while (N <= n) N <<= 1;
+
+        vector<int> segTree(N << 1);
+        for (int i = 0; i < n; ++i)
+            segTree[N + i] = baskets[i];
+        
+        for (int i = N - 1; i > 0; --i)
+            segTree[i] = max(segTree[2 * i], segTree[2 * i + 1]);
+
         int count = 0;
-        vector<int> maxV(section);
-        for (int i = 0; i < n; i++) {
-            maxV[i / m] = max(maxV[i / m], baskets[i]);
-        }
         for (int fruit : fruits) {
-            int sec;
-            int unset = 1;
-            for (sec = 0; sec < section; sec++) {
-                if (maxV[sec] < fruit) {
-                    continue;
-                }
-                int choose = 0;
-                maxV[sec] = 0;
-                for (int i = 0; i < m; i++) {
-                    int pos = sec * m + i;
-                    if (pos < n && baskets[pos] >= fruit && !choose) {
-                        baskets[pos] = 0;
-                        choose = 1;
-                    }
-                    if (pos < n) {
-                        maxV[sec] = max(maxV[sec], baskets[pos]);
-                    }
-                }
-                unset = 0;
-                break;
+            int index = 1;
+            if (segTree[index] < fruit) {
+                count++;
+                continue;
             }
-            count += unset;
+
+            while (index < N) {
+                if (segTree[2 * index] >= fruit)
+                    index = 2 * index;
+                else
+                    index = 2 * index + 1;
+            }
+
+            segTree[index] = -1;
+            while (index > 1) {
+                index >>= 1;
+                segTree[index] = max(segTree[2 * index], segTree[2 * index + 1]);
+            }
         }
         return count;
     }
