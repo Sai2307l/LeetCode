@@ -10,12 +10,11 @@ public:
     long long minOperations(vector<vector<int>>& queries) {
         for(int i=1; i<18; i++){
             expSum4[i]=expSum4[i-1]+3LL*i*(1LL<<(2*(i-1)))+1;
-        //    cout<<i<<"->"<<expSum4[i]<<", ";
         }
         long long op=0;
         for(auto& q: queries){
             int l=q[0]-1, r=q[1];
-            op+=(expSum(r)-expSum(l)+1)/2;// ceiling of (expSum(r)-expSum(l))/2
+            op+=(expSum(r)-expSum(l)+1)/2;
         }
         return op;
     }
