@@ -4,7 +4,7 @@ public:
 
     bool func(vector<char>& path,vector<int>& cnt,string& target,bool big){
         int n = target.size();
-        if(!ans.empty()) return true;
+        // if(!ans.empty()) return true;
         if(path.size()==n){
             if(big){
                 ans = string(path.begin(),path.end());
