@@ -1,53 +1,43 @@
 class Solution {
 public:
-    vector<int> findXSum(vector<int>& nums, int k, int x) 
-    {
-        int n = nums.size();
-        vector<int> answer;
-        unordered_map<int, int> freq;
-
-        // Initialize frequency map for the first window
-        for (int j = 0; j < k; j++) {
-            freq[nums[j]]++;
+    using int2=pair<int, int>;
+    static int x_sum( const auto& freq, int k, int x){
+        auto freq2=freq;
+        sort(freq2.begin(), freq2.end(), greater<int2>());
+        int sum=0;
+        for (int i=0; i<x; i++){
+            auto [f, num]=freq2[i];
+            if (f==0) break;
+            sum+=num*f;
         }
-
-        // Calculate x-sum for the first window
-        answer.push_back(calculateXSum(freq, x));
-
-        // Slide the window
-        for (int i = 1; i <= n - k; i++) {
-            // Remove the element going out of the window
-            freq[nums[i - 1]]--;
-            if (freq[nums[i - 1]] == 0) {
-                freq.erase(nums[i - 1]);
-            }
-
-            // Add the new element coming into the window
-            freq[nums[i + k - 1]]++;
-
-            // Calculate x-sum for the current window
-            answer.push_back(calculateXSum(freq, x));
-        }
-        
-        return answer;
-    }
-
-private:
-    int calculateXSum(const unordered_map<int, int>& freq, int x) {
-        // Use a priority queue (max heap) to get the top x elements
-        priority_queue<pair<int, int>> pq; // (frequency, value)
-
-        for (const auto& entry : freq) {
-            pq.push({entry.second, entry.first});
-        }
-
-        int sum = 0;
-        for (int i = 0; i < x && !pq.empty(); i++) {
-            auto top = pq.top();
-            pq.pop();
-            sum += top.second * top.first; // sum = value * frequency
-        }
-
         return sum;
     }
+    static vector<int> findXSum(vector<int>& nums, int k, int x) {
+        const int n=nums.size(), sz=n-k+1;
+        vector<int> ans(sz);
+        array<int2, 51> freq;
+        freq.fill({0, 0});
+        for(int r=0; r<k; r++){
+            int z=nums[r];
+            freq[z].second=z;
+            freq[z].first++;
+        }
+        ans[0]=x_sum(freq, k, x);
+        for(int l=1, r=k; l<sz; l++, r++){
+            int L=nums[l-1], R=nums[r];
+            freq[L].first--;
+            freq[R].first++;
+            freq[R].second = R;
+            ans[l]=x_sum(freq, k, x);
+        }
+        return ans;
+    }
 };
+
+
+auto init = []() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    return 'c';
+}();
