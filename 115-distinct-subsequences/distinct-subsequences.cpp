@@ -20,9 +20,8 @@ public:
 
         notTake = recursiveWithMemoization(s, t, s_ind + 1, t_ind, dp);
 
-        dp[s_ind][t_ind] = take + notTake;
 
-        return dp[s_ind][t_ind];
+        return dp[s_ind][t_ind] = take+notTake;
     }
 
     int numDistinct(string s, string t) {
