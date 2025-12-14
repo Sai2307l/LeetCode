@@ -1,31 +1,22 @@
 class Solution {
 public:
-    int recursiveWithMemoization(string& s, string& t, int s_ind, int t_ind, vector<vector<int>>& dp) {
-        if (t_ind == t.length()) {
+    int recc_sol(string& s,string& t, int idxs, int idxt,vector<vector<int>>& dp){
+        if(idxt==t.size()){
             return 1;
         }
-        if (s_ind == s.length()) {
-            return 0;
-        }
+        if(idxs==s.size()) return 0;
 
-        if (dp[s_ind][t_ind] != -1) {
-            return dp[s_ind][t_ind];
-        }
+        if(dp[idxs][idxt]!=-1) return dp[idxs][idxt];
 
-        int take = 0, notTake = 0;
+        int take = 0,notake=0;
 
-        if (s[s_ind] == t[t_ind]) {
-            take = recursiveWithMemoization(s, t, s_ind + 1, t_ind + 1, dp);
-        }
-
-        notTake = recursiveWithMemoization(s, t, s_ind + 1, t_ind, dp);
-
-
-        return dp[s_ind][t_ind] = take+notTake;
+        if(s[idxs] == t[idxt]) take=recc_sol(s,t,idxs+1,idxt+1,dp);
+        notake=recc_sol(s,t,idxs+1,idxt,dp);
+        return dp[idxs][idxt] = take + notake;
     }
-
     int numDistinct(string s, string t) {
-        vector<vector<int>> dp(s.length(), vector<int>(t.length(), -1));
-        return recursiveWithMemoization(s, t, 0, 0, dp);
+       if(t.size()>s.size()) return false;
+       vector<vector<int>> dp(s.size(),vector<int>(t.size(),-1));
+       return recc_sol(s,t,0,0,dp);
     }
 };
