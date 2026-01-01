@@ -11,6 +11,8 @@ public:
             }else if(con){
                 digits[idx]++;
                 con = false;
+            }else{
+                break;
             }
             idx--;
         }
