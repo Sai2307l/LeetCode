@@ -1,11 +1,10 @@
 class Solution {
 public:
     int repeatedNTimes(vector<int>& nums) {
-        map<int,int> freq;
-        for(auto i:nums){
-            freq[i]++;
-            if(freq[i]==2)return i;
+        int n = nums.size();
+        for(int i = 0;i<n-2;i++){
+           if(nums[i]==nums[i+1]|| nums[i]==nums[i+2]) return nums[i];
         }
-        return 0;
+        return nums.back();
     }
 };
