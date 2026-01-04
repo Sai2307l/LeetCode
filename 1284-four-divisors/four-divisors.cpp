@@ -1,17 +1,35 @@
 class Solution {
 public:
     int sumFourDivisors(vector<int>& nums) {
-        int max_num=INT_MIN;
-        for(auto i:nums) max_num=max(max_num,i);
-        vector<int> arr(max_num+1,0),count(max_num+1,0);
-        for(int i=1;i<=max_num;i++){
-            for(int j=i;j<=max_num;j+=i){ arr[j]+=i;
-            count[j]++;
+    int n = nums.size();
+    int sol = 0;
+    for(int k=0;k<n;k++){
+        int num = nums[k];
+        long long total = 1;
+        long long count = 1;
+        for (int i = 2; (long long)i * i <= num; i++) {
+            if (num % i == 0) {
+                int e = 0;
+                do {
+                    e++;
+                    num /= i;
+                } while (num % i == 0);
+                count *= e + 1;
+
+                long long sum = 0, pow = 1;
+                do {
+                    sum += pow;
+                    pow *= i;
+                } while (e-- > 0);
+                total *= sum;
             }
         }
-        int sum=0;
-        for(auto i:nums) if(count[i]==4) sum+=arr[i];
-        // for(auto i:nums) cout<<arr[i]<<" ";
-        return sum;
+        if (num > 1) {
+            total *= (1 + num);
+            count *= 2;
+        }
+        if(count==4) sol+=total;
+    }
+    return sol;
     }
 };
