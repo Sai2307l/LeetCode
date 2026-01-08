@@ -28,8 +28,8 @@ public:
     }
     int maxDotProduct(vector<int>& nums1, vector<int>& nums2) {
         vector<vi> dp(nums1.size(),vi(nums2.size(),INT_MIN));
-        int ans1 = recc_sol(dp,nums1,nums2,nums1.size()-1,nums2.size()-1);
-        dp.resize(nums1.size(),vi(nums2.size(),INT_MIN));
+        // int ans1 = recc_sol(dp,nums1,nums2,nums1.size()-1,nums2.size()-1);
+        // dp.resize(nums1.size(),vi(nums2.size(),INT_MIN));
         int ans2 = tabulation(dp,nums1,nums2);
         return ans2;
     }
