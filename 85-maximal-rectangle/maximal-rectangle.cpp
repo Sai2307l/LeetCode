@@ -1,43 +1,40 @@
 class Solution {
 public:
-    int histo(int n, vector<int>&arr){
-        stack<int>st;
+    int area(vector<int>& heights) {
+        int n = heights.size();
+        stack<int> st;
         int maxArea = 0;
-        for(int i=0; i<=n; i++){
-            while(!st.empty() && (i==n || arr[st.top()]>=arr[i])){
-                int ind = st.top();
+
+        for (int i = 0; i <= n; i++) {
+            int h = (i == n) ? 0 : heights[i];
+            while (!st.empty() && h < heights[st.top()]) {
+                int height = heights[st.top()];
                 st.pop();
-
-                int height = arr[ind];
-                int width = 1;
-                if(i==n) width = n;
-                if(st.empty()) width = i;
-                else width = i-st.top()-1;
-
-                maxArea = max(maxArea, height*width);
-                cout<<height*width<<" ";
+                int width = st.empty() ? i : i - st.top() - 1;
+                maxArea = max(maxArea, height * width);
             }
             st.push(i);
         }
-        cout<<endl;
         return maxArea;
     }
+
     int maximalRectangle(vector<vector<char>>& matrix) {
-        if (matrix.empty() || matrix[0].empty()) return 0;
-
-        int n = matrix[0].size();
         int m = matrix.size();
-        vector<int>area(n, 0);
+        if (m == 0) return 0;
+        int n = matrix[0].size();
 
-        int maxArea = 0;
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                if(matrix[i][j] == '1') area[j]++;
-                else area[j] = 0;
+        vector<int> hist(n, 0);
+        int ans = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == '1')
+                    hist[j]++;
+                else
+                    hist[j] = 0;
             }
-            maxArea = max(maxArea, histo(n, area));
+            ans = max(ans, area(hist));
         }
-
-        return maxArea;
+        return ans;
     }
 };
