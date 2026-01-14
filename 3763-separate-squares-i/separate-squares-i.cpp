@@ -4,7 +4,7 @@ public:
       double L = 0.0, R = 1e9;
       double Ans = 0.0;
 
-      for (int it = 0; it < 80; it++) {
+      while(R-L>1e-5){
           double mid = L + (R - L) / 2.0;
           double LA = 0.0, UA = 0.0;
 
