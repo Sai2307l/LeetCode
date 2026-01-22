@@ -1,39 +1,26 @@
 class Solution {
 public:
-    bool isNondecreasing(vector<int>& nums){
-        for(int i=1;i<nums.size();i++){
-            if(nums[i]<nums[i-1]){
-                return false;
+    int minPair(vector<int> v){
+        int minSum = 1e9;
+        int pos = -1;
+        for(int i = 0; i < (int)v.size() - 1; i ++){
+            if(v[i] + v[i + 1] < minSum){
+                minSum = v[i] + v[i + 1];
+                pos = i;
             }
         }
-        return true;
+        return pos;
+    }
+    void mergePair(vector<int> &v, int pos){
+        v[pos] += v[pos + 1];
+        v.erase(v.begin() + pos + 1);
     }
     int minimumPairRemoval(vector<int>& nums) {
-        int ops=0;
-        while(!isNondecreasing(nums)){
-            int min_sum = INT_MAX;
-            int index = -1;
-            for(int i=0;i<nums.size()-1;i++){
-                int sum = nums[i]+nums[i+1];
-                if(sum<min_sum){
-                    min_sum = sum;
-                    index = i;
-                }
-            }
-
-            vector<int> temp;
-            for(int i=0;i<nums.size();i++){
-                if(i==index){
-                    temp.push_back(nums[i]+nums[i+1]);
-                    i++;
-                }else{
-                    temp.push_back(nums[i]);
-                }
-            }
-            nums = temp;
-            ++ops;
-           
+        int ops = 0;
+        while(!is_sorted(nums.begin(), nums.end())){
+            mergePair(nums, minPair(nums));
+            ops += 1;
         }
-     return ops;
+        return ops;
     }
 };
