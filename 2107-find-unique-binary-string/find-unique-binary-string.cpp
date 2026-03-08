@@ -1,20 +1,34 @@
 class Solution {
 public:
-    string findDifferentBinaryString(vector<string>& nums) {
-     int n = nums.size();
-     set<string> set;
-     for(auto i:nums) set.insert(i);
-     vector<char> ans(n,'0');
-     int size=set.size();
-     for(int i=0;i<n+1;i++){
-        string val(ans.begin(),ans.end());
-        set.insert(val);
-        if(size!=set.size()) return val;
-        else{
-            if(i!=n)ans[i]='1';
-            else ans[0]='0';
+    int len;
+    int toInt(string& nums){
+        int x=0;
+        for(char c: nums){
+            x=(x<<1)+(c-'0');
         }
-     }
-     return "hello";
+        return x;
+    }
+    string findDifferentBinaryString(vector<string>& nums) {
+        len=nums[0].size();
+        vector<bool> hasX(1<<len, 0);
+
+        for(auto& x:  nums)
+            hasX[toInt(x)]=1;
+        int N=0;//find N
+        for(; N<(1<<len) && hasX[N]; N++);
+    //    cout<<N<<endl;
+        string ans=string(len, '0');
+        for(int i=len-1; i>=0 && N>0; i--){
+            ans[i]=(N&1)+'0';
+            N>>=1;
+        }
+        return ans;
     }
 };
+auto init = []()
+{ 
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    return 'c';
+}();
