@@ -18,10 +18,7 @@ public:
             }
         }
         long long tot_n = accumulate(n_sums.begin(),n_sums.end(),(long long)0);
-        long long tot_m = accumulate(m_sums.begin(),m_sums.end(),(long long)0);
-        if(tot_n%2==1 && tot_m%2==1) return false;
-        if(tot_n%2==1 && tot_m%2==0) return check(m_sums,tot_m);
-        if(tot_n%2==0 && tot_m%2==1) return check(n_sums,tot_n);
-        return check(m_sums,tot_m)||check(n_sums,tot_n);
+        if(tot_n%2==1) return false;
+        else return check(m_sums,tot_n)||check(n_sums,tot_n);
     }
 };
