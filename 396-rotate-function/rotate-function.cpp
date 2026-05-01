@@ -1,19 +1,18 @@
 class Solution {
 public:
     int maxRotateFunction(vector<int>& nums) {
+        int sum = 0,acc = accumulate(nums.begin(),nums.end(),0);
         int n = nums.size();
-        if(n<2) return 0;
-
-        int sum = accumulate(nums.begin(),nums.end(),0);
-        int curr = 0;
-        for(int i = 0;i<n;i++){
-            curr += nums[i]*i;
+        for(int i=0;i<n;i++){
+            sum+=i*nums[i];
         }
-        int ans = curr;
-        for(int i = 0;i<n;i++){
-            curr += sum - n*nums[n-1-i];
-            ans = max(ans,curr);
+        cout<<sum<<endl;
+        int sol = sum;
+        for(int i=n-1;i>0;i--){
+            sum+=acc-((n)*nums[i]);
+            sol = max(sum,sol);
+            cout<<sum<<endl;
         }
-        return ans;
+        return sol;
     }
 };
