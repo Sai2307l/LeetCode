@@ -1,1 +1,1 @@
-<h2>rotate-function Notes</h2><hr>[ Time taken: 10 hrs 20 m 53 s ]
+<h2>rotate-function Notes</h2><hr>[ Time taken: 48m 8s ]
